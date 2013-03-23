@@ -24,19 +24,4 @@ For simple applications, you'll want to set `namespace` to the application conte
 
 The only modifications that are necessary to your JSON-serving Grails controllers are to set a root key to the name of the controller.  `ember-data` requires this to know what kind of data it's filling in.  I have included a utility class to do this, `RESTControllerAssistant.groovy`.
 
-For a simple, non-modifiable domain class, the controller looks like this:
-
-```java
-class MyCoolDomainController {
-    def index() {
-        redirect action:"list"
-    }
-    
-    def show() {
-        render RESTControllerAssistant.renderSingle(MyCoolDomain, MyCoolDomain.get(params.id))
-    }
-    def list() {
-        render RESTControllerAssistant.renderMultiple(MyCoolDomain, MyCoolDomain.list())
-    }    
-}
-```
+A simple example controller is included which makes use of this.
