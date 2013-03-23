@@ -19,7 +19,10 @@ class RESTControllerAssistant {
     
     static JSON renderSingle(Class clazz, Object it) 
     {
-        return renderMultiple(clazz, it ? [it] : [])
+        String root = rootForType(clazz)
+        Map    result = [:]
+        result [root] = it
+        return (result as JSON)
     }
     
     static Map extractSingle(Class domain, JSONObject params) {
