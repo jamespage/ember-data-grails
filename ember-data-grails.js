@@ -1,15 +1,6 @@
 (function() {
 var get = Ember.get, set = Ember.set;
 
-DS.GrailsAdapter = DS.RESTAdapter.extend({
-  serializer: DS.GrailsSerializer,
-  namespace:  "grails.app.context",
-  buildURL: function(record, suffix) {
-    Ember.assert("Namespace URL should be overridden and set to the application prefix (e.g., grails.app.context)", this.namespace !== "grails.app.context");
-    return this._super(record, suffix);
-  }
-});
-
 /**
   Serializer for use with Grails
  */
@@ -61,7 +52,7 @@ DS.GrailsSerializer = DS.JSONSerializer.extend({
       var id = get(record, relationship.key+'.id');
       if (!Ember.isNone(id)) { 
         hash[key] = {};
-        hash[key][this.primaryKey(type)] = id;
+        hash[key + '.' + this.primaryKey(type)] = id;
       }
     }
   },
@@ -73,4 +64,20 @@ DS.GrailsSerializer = DS.JSONSerializer.extend({
     return hash[key][this.primaryKey(type)];
   }
 });
+
 })();
+
+
+(function() {
+/*global jQuery*/
+
+DS.GrailsAdapter = DS.RESTAdapter.extend({
+  serializer: DS.GrailsSerializer,
+  namespace:  "grails.app.context",
+  buildURL: function(record, suffix) {
+    Ember.assert("Namespace URL should be overridden and set to the application prefix (e.g., grails.app.context)", this.namespace !== "grails.app.context");
+    return this._super(record, suffix);
+  }
+});
+})();
+
